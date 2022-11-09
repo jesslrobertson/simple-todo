@@ -6,7 +6,7 @@ export default function TodoItemForm(props){
   return (
     <div className='form--container'>
       {/* write todo from here */}
-      <Button type={save} text={save} />
+      <Button type={'save'} text={'save'} />
     </div>
   )
 }

@@ -1,0 +1,29 @@
+:root {
+  --xxl-text: clamp(2rem, 1.6666666666666667rem + 1.6666666666666667vw, 3rem);
+  --xxl-text-alt: 3rem;
+  --xl-text: clamp(1.5rem, 1.3333333333333333rem + 0.8333333333333334vw, 2rem);
+  --xl-text-alt: 1.5rem;
+  --l-text: clamp(1.3rem, 1.1333333333333333rem + 0.8333333333333334vw, 1.8rem);
+  --l-text-alt: 1.3rem;
+  --m-text: clamp(
+    1.1rem,
+    1.0000000000000002rem + 0.49999999999999967vw,
+    1.4rem
+  );
+  --m-text-alt: 1.1rem;
+  --s-text: clamp(1rem, 0.9333333333333333rem + 0.33333333333333326vw, 1.2rem);
+  --s-text-alt: 1rem;
+  --xs-text: clamp(0.9rem, 0.85rem + 0.25000000000000006vw, 1.05rem);
+  --xs-text-alt: 0.9rem;
+  --xxs-text: clamp(0.75rem, 0.7rem + 0.25000000000000006vw, 0.9rem);
+  --xxs-text-alt: 0.75rem;
+  --content-font: "Noto Sans", sans-serif;
+  --s-radius: 5px;
+  --m-radius: 10px;
+  --l-radius: 15px;
+  --transition: 0.4s ease;
+}
+
+.App {
+  font-family: --var(--content-font);
+}

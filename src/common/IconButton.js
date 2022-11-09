@@ -1,5 +1,6 @@
 import React from 'react'
-import {edit, trash} from '../icons'
+import {ReactComponent as edit} from '../icons/edit.svg'
+import {ReactComponent as trash} from '../icons/trash.svg'
 
 export default function IconButton(props){
   const {type} = props

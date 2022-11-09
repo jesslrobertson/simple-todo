@@ -3,7 +3,7 @@ import IconInput from '../common/IconInput'
 import Button from '../common/Button'
 
 
-export default function AuthForm(){
+export default function Auth(){
 
 
   return (

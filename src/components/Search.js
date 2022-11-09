@@ -4,7 +4,7 @@ export default function Search(){
 
   return (
     <div className='search--box'>
-      <IconInput type={search} />
+      <IconInput type={'search'} />
     </div>
   )
 }
