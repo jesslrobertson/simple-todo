@@ -4,7 +4,11 @@ export default function Header(){
 
   return (
     <div className='header'>
-      <Button text={Logout} color={green} type={logout}/>
+      <Button 
+      text={'Logout'} 
+      color={'green'} 
+      // type={logout}
+      />
       <h1>My Todo List</h1>
     </div>
   )

@@ -1,4 +1,4 @@
-import React, {useState} from React
+import React, {useState} from 'react'
 import IconButton from "../common/IconButton"
 import Button from '../common/Button'
 import TodoItemForm from "./TodoItemForm"
@@ -9,14 +9,14 @@ export default function TodoItem(props){
   const displayItem = (
     <div className='todo' edit={edit}>
       <h6 className='todo--title'>Finish TodoItem Component</h6>
-      <IconButton type={edit} />
-      <IconButton type={remove} />
+      <IconButton type={'edit'} />
+      <IconButton type={'remove'} />
     </div>
   )
 
   const editItem = (
     <>
-      <TodoItemForm title={title} edit={edit} />
+      <TodoItemForm title={'title'} edit={'edit'} />
     </>
   )
 
