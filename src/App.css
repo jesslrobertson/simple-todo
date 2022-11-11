@@ -21,9 +21,141 @@
   --s-radius: 5px;
   --m-radius: 10px;
   --l-radius: 15px;
+  --dark-grey: #013346;
+  /* --dark-grey: #13272e; */
+
+  --blue: #7afef6;
+  --light-blue: #d2f6f9;
+  --green: #4abf2a;
+  --light-green: #98d936;
+  --white: #f7fcf8;
+  --light-font: #e2faf8;
+  --transparent: #d6fffd54;
   --transition: 0.4s ease;
 }
 
+svg {
+  height: 1rem;
+}
+
+button {
+  border: none;
+  border-radius: var(--s-radius);
+  margin: 0.25rem;
+  padding: 0.5rem;
+}
+
+button.light-green {
+  background-color: var(--light-green);
+}
+
+button.login {
+  margin: 1.25rem;
+  background-color: #7afef6;
+}
+
+button.header {
+  width: fit-content;
+  margin: .5rem;
+  background-color: var(--blue);
+}
+
+
 .App {
-  font-family: --var(--content-font);
+  font-family: var(--content-font);
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* background-color: var(--light-blue); */
+  background-image: url("https://images.unsplash.com/photo-1614852206732-6728910dc175");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.title {
+  color: var(--light-font);
+  font-size: var(--xl-text);
+  font-weight: 600;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: -20%;
+  min-height: 100%;
+  width: 100%;
+}
+
+.auth--form {
+  display: flex;
+  flex-direction: column;
+  background-color: #d6fffd54;
+  border-radius: var(--m-radius);
+  padding: 1rem;
+}
+/* add focus outline for external box. May need to set state for focus */
+.input--box {
+  border: var(--dark-grey) 1px solid;
+  border-radius: var(--s-radius);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  padding: 0.25rem;
+  width: 15rem;
+  margin: 0;
+  background-color: var(--white);
+}
+.auth--input {
+  margin: 0.75rem;
+  color: var(--light-font);
+}
+
+.input--box:focus {
+  outline: var(--blue);
+}
+
+.icon--input {
+  border: none;
+  width: 15rem;
+  font-size: var(--xs-text-alt);
+  font-size: var(--xs-text);
+}
+
+.icon--input:focus {
+  outline: none;
+}
+
+.home--page{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  min-height: 100vh;
+  background-color: var(--dark-grey);
+  width: 100%;
+}
+
+.todo--list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--light-blue);
+  border-radius: var(--l-radius);
+  margin-top: 10%;
+  min-height: 35rem;
+  width: 25rem;
+  color: var(--dark-grey)
 }

@@ -1,64 +1,74 @@
-import React, { useState } from 'react'
-import axios from 'axios'
+import React, { useState } from "react";
+import axios from "axios";
+var qs = require("qs");
 
-export const UserContext = React.createContext()
+export const UserContext = React.createContext();
 
-// const userAxios = axios.create()
+export default function UserProvider(props) {
+  const initState = {
+    username: JSON.parse(localStorage.getItem("username")) || "",
+    userImage: localStorage.getItem("userImage") || "",
+    token: localStorage.getItem("token") || "",
+    todos: localStorage.getItem("todos") || "",
+    errMsg: "",
+  };
 
-// userAxios.interceptors.request.use(config => {
-//   const token = localStorage.getItem("token")
-//   config.headers.Authorization = `Bearer ${token}`
-//   return config
-// })
+  const [userState, setUserState] = useState(initState);
+  console.log("userState");
+  console.log(userState);
 
-export default function UserProvider(props){
-  const initState = { 
-    user: JSON.parse(localStorage.getItem("user")) || {}, 
-    token: localStorage.getItem("token") || "", 
-    errMsg: ""
-  }
-  
-  const [userState, setUserState] = useState(initState)
-  
-  function login(credentials){
-    axios.post("http://dev.rapptrlabs.com/Tests/scripts/user-login.php", credentials)
-      .then(res => {
-        const { user, token } = res.data
-        localStorage.setItem("token", token)
-        localStorage.setItem("user", JSON.stringify(user))
-        setUserState(prevUserState => ({
+  function login(credentials) {
+    const options = {
+      method: "POST",
+      headers: { "content-type": "application/x-www-form-urlencoded" },
+      data: qs.stringify(credentials),
+      url: "https://cors-anywhere.herokuapp.com/http://dev.rapptrlabs.com/Tests/scripts/user-login.php",
+    };
+    console.log("login called");
+    console.log(credentials);
+    axios(options).then((res) => {
+      console.log(res);
+      const { user_username, user_token, user_profile_image } = res.data;
+      console.log(user_profile_image);
+      localStorage.setItem("token", user_token);
+      localStorage.setItem("username", JSON.stringify(user_username));
+      localStorage.setItem("userImage", user_profile_image);
+      setUserState((prevUserState) =>
+        ({
           ...prevUserState,
-          user,
-          token
+          user_username,
+          user_profile_image,
+          user_token,
         }))
-      })
-      .catch(err => handleAuthError(err.response.data.errMsg))
-  }
-
-  function logout(){
-    localStorage.removeItem("token")
-    localStorage.removeItem("user")
-    setUserState({
-      user: {},
-      token: "",
-      todos: []
     })
+    .catch((err) => handleAuthError(err.res.data))
   }
 
-  function handleAuthError(errMsg){
-    setUserState(prevState => ({
+  function logout() {
+    console.log("logout called");
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    setUserState({
+      username: "",
+      userImage: "",
+      token: "",
+      todos: [],
+    });
+  }
+
+  function handleAuthError(errMsg) {
+    setUserState((prevState) => ({
       ...prevState,
-      errMsg
-    }))
+      errMsg,
+    }));
   }
 
-  function resetAuthError(){
-    setUserState(prevState => ({
+  function resetAuthError() {
+    setUserState((prevState) => ({
       ...prevState,
-      errMsg: ""
-    }))
+      errMsg: "",
+    }));
   }
-
 
   return (
     <UserContext.Provider
@@ -66,9 +76,10 @@ export default function UserProvider(props){
         ...userState,
         login,
         logout,
-        resetAuthError
-      }}>
-      { props.children }
+        resetAuthError,
+      }}
+    >
+      {props.children}
     </UserContext.Provider>
-  )
+  );
 }

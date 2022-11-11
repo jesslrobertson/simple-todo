@@ -1,15 +1,17 @@
+import React, { useContext } from 'react'
+import { UserContext } from '../UserProvider'
 import Button from '../common/Button'
 
 export default function Header(){
-
+  const { logout } = useContext(UserContext)
   return (
     <div className='header'>
       <Button 
-      text={'Logout'} 
+      buttonText={'Logout'} 
       color={'green'} 
-      // type={logout}
+      onClick={logout}
+      type='header'
       />
-      <h1>My Todo List</h1>
     </div>
   )
 }
