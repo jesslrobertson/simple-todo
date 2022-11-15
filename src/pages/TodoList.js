@@ -39,12 +39,13 @@ export default function TodoList() {
   return (
     <div className="home--page">
       <Header />
-      <div className="todo--list">
-        <h3 className="title">My Todo List</h3>
+        <h3 className="title">My To-do List</h3>
+      <div className="todo--list--box">
         <div className="todo--nav">
           <Search search={search} setSearch={setSearch} />
           <Button buttonText="New" color="blue" onClick={toggleNewTodo} />
         </div>
+        <div className="todo--list">
         {newTodo && (
           <TodoItemForm
             toggleNewTodo={toggleNewTodo}
@@ -55,6 +56,7 @@ export default function TodoList() {
         {displayedTodos?.map((todo, index) => (
           <TodoItem newTodo={newTodo} todo={todo} index={index} key={index} />
         ))}
+        </div>
       </div>
     </div>
   );
