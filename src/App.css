@@ -209,6 +209,10 @@ p.error {
   padding: 1.5rem;
 }
 
+.todo--list > .title {
+  margin-top: 5px;
+}
+
 .todo--nav {
   display: flex;
   align-items: center;
