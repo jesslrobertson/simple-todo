@@ -1,22 +1,29 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 var qs = require("qs");
 
 export const UserContext = React.createContext();
 
 export default function UserProvider(props) {
+  const navigate = useNavigate();
   const initState = {
     username: JSON.parse(localStorage.getItem("username")) || "",
     userImage: localStorage.getItem("userImage") || "",
     token: localStorage.getItem("token") || "",
-    todos: localStorage.getItem("todos") || "",
+    storedTodos: JSON.parse(localStorage.getItem("todos")) || [],
     errMsg: "",
   };
 
   const [userState, setUserState] = useState(initState);
-  console.log("userState");
-  console.log(userState);
+  const [loading, setLoading] = useState(false);
+  const todos = [];
+  if (userState.storedTodos?.length < 1) {
+    todos.push("Click 'New' to write a new item!");
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }
 
+  //using a proxy server to get around the CORS error, enable access with one click at https://cors-anywhere.herokuapp.com/corsdemo
   function login(credentials) {
     const options = {
       method: "POST",
@@ -26,40 +33,77 @@ export default function UserProvider(props) {
     };
     console.log("login called");
     console.log(credentials);
-    axios(options).then((res) => {
-      console.log(res);
-      const { user_username, user_token, user_profile_image } = res.data;
-      console.log(user_profile_image);
-      localStorage.setItem("token", user_token);
-      localStorage.setItem("username", JSON.stringify(user_username));
-      localStorage.setItem("userImage", user_profile_image);
-      setUserState((prevUserState) =>
-        ({
+    setLoading(true);
+    axios(options)
+      .then((res) => {
+        console.log(res);
+        const { user_username, user_token, user_profile_image } = res.data;
+        console.log(user_profile_image);
+        localStorage.setItem("token", user_token);
+        localStorage.setItem("username", JSON.stringify(user_username));
+        localStorage.setItem("userImage", user_profile_image);
+        setUserState((prevUserState) => ({
           ...prevUserState,
-          user_username,
-          user_profile_image,
-          user_token,
-        }))
-    })
-    .catch((err) => handleAuthError(err.res.data))
+          username: user_username,
+          userImage: user_profile_image,
+          token: user_token,
+        }));
+        navigate("/todolist");
+      })
+      .catch((err) => handleAuthError(err.response.status))
+      .finally(() => setLoading(false));
+  }
+
+  function addTodo(newTodo) {
+    const updatedList = [...userState.storedTodos, newTodo];
+    localStorage.setItem("todos", JSON.stringify(updatedList));
+    setUserState((prevUserState) => ({
+      ...prevUserState,
+      storedTodos: JSON.parse(localStorage.getItem("todos")),
+    }));
+  }
+
+  function editTodo(editingIndex, updatedTodo) {
+    const currentList = [...userState.storedTodos];
+    currentList[editingIndex] = updatedTodo;
+    localStorage.setItem("todos", JSON.stringify(currentList));
+    setUserState((prevUserState) => ({
+      ...prevUserState,
+      storedTodos: JSON.parse(localStorage.getItem("todos")),
+    }));
+  }
+
+  function removeTodo(indexToRemove) {
+    const currentList = [...userState.storedTodos];
+    const updatedList = currentList.filter(
+      (item, index) => item[index] !== item[indexToRemove]
+    );
+    localStorage.setItem("todos", JSON.stringify(updatedList));
+    setUserState((prevUserState) => ({
+      ...prevUserState,
+      storedTodos: JSON.parse(localStorage.getItem("todos")),
+    }));
   }
 
   function logout() {
-    console.log("logout called");
     localStorage.removeItem("token");
     localStorage.removeItem("username");
     setUserState({
       username: "",
       userImage: "",
       token: "",
-      todos: [],
     });
   }
 
-  function handleAuthError(errMsg) {
+  function handleAuthError(errCode) {
+    console.log(errCode);
+    let authErrMsg =
+      errCode === 401
+        ? "Email or password is incorrect"
+        : "Something went wrong";
     setUserState((prevState) => ({
       ...prevState,
-      errMsg,
+      errMsg: authErrMsg,
     }));
   }
 
@@ -73,10 +117,15 @@ export default function UserProvider(props) {
   return (
     <UserContext.Provider
       value={{
-        ...userState,
+        addTodo,
+        editTodo,
+        removeTodo,
         login,
         logout,
         resetAuthError,
+        loading,
+        setUserState,
+        ...userState,
       }}
     >
       {props.children}

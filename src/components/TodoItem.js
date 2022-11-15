@@ -1,29 +1,43 @@
-import React, {useState} from 'react'
-import IconButton from "../common/IconButton"
-import Button from '../common/Button'
-import TodoItemForm from "./TodoItemForm"
+import React, { useState, useContext } from "react";
+import { UserContext } from "../UserProvider";
+import IconButton from "../common/IconButton";
+import TodoItemForm from "./TodoItemForm";
 
-export default function TodoItem(props){
-  const [edit, setEdit] = useState(false)
+export default function TodoItem(props) {
+  const { removeTodo, editTodo } = useContext(UserContext);
+  const [editingItem, setEditingItem] = useState(false);
+  const { todo, index } = props;
 
   const displayItem = (
-    <div className='todo' edit={edit}>
-      <h6 className='todo--title'>Finish TodoItem Component</h6>
-      <IconButton type={'edit'} />
-      <IconButton type={'remove'} />
-    </div>
-  )
-
-  const editItem = (
     <>
-      <TodoItemForm title={'title'} edit={'edit'} />
+      <p className="todo--title">{todo}</p>
+      <div className="todo--button--box">
+        <IconButton
+          type="edit"
+          className="svg--button"
+          setEditingItem={setEditingItem}
+        />
+        <IconButton
+          type="remove"
+          className="svg--button"
+          index={index}
+          removeTodo={removeTodo}
+        />
+      </div>
     </>
-  )
+  );
 
-  return (
-    <div className='todo--box'>
-      <h6>A todo will live here</h6>
-{/* conditionally render either item or form depending on state */}
-    </div>
-  )
+  const formItem = (
+    <>
+      <TodoItemForm
+        todo={todo}
+        editTodo={editTodo}
+        editingItem={editingItem}
+        setEditingItem={setEditingItem}
+        index={index}
+      />
+    </>
+  );
+
+  return <div className="todo">{editingItem ? formItem : displayItem}</div>;
 }

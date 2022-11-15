@@ -7,9 +7,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { UserContext } from "./UserProvider";
 
 function App() {
-  const { token, logout } = useContext(UserContext);
+  const { token } = useContext(UserContext);
 
-  console.log(token);
   return (
     <div className="App">
       <Routes>

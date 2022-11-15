@@ -17,36 +17,39 @@
   --xs-text-alt: 0.9rem;
   --xxs-text: clamp(0.75rem, 0.7rem + 0.25000000000000006vw, 0.9rem);
   --xxs-text-alt: 0.75rem;
-  --content-font: "Noto Sans", sans-serif;
+  --content-font: "Urbanist", sans-serif;
   --s-radius: 5px;
   --m-radius: 10px;
   --l-radius: 15px;
-  --dark-grey: #013346;
-  /* --dark-grey: #13272e; */
-
   --blue: #7afef6;
   --light-blue: #d2f6f9;
-  --green: #4abf2a;
-  --light-green: #98d936;
   --white: #f7fcf8;
   --light-font: #e2faf8;
-  --transparent: #d6fffd54;
-  --transition: 0.4s ease;
+  --transparent: #02030330;
 }
 
-svg {
+.svg--icon {
   height: 1rem;
+}
+
+.svg--button {
+  height: 1.5rem;
+  width: 1.5rem;
+  stroke: var(--light-blue);
+  margin: 5px;
 }
 
 button {
   border: none;
   border-radius: var(--s-radius);
-  margin: 0.25rem;
+  margin: 0.25rem 0;
   padding: 0.5rem;
+  font-weight: 600;
+  font-size: var(--xs-text);
 }
 
-button.light-green {
-  background-color: var(--light-green);
+button.blue {
+  background-color: var(--blue);
 }
 
 button.login {
@@ -56,10 +59,23 @@ button.login {
 
 button.header {
   width: fit-content;
-  margin: .5rem;
+  margin: 0.5rem;
   background-color: var(--blue);
 }
 
+.blue {
+  background-color: var(--blue);
+}
+
+.todo--input {
+  border: none;
+  width: 15rem;
+  border-radius: var(--s-radius);
+  padding: 0.25rem;
+  font-size: var(--xs-text-alt);
+  font-size: var(--xs-text);
+  margin: 0.25rem;
+}
 
 .App {
   font-family: var(--content-font);
@@ -104,9 +120,11 @@ button.header {
   background-color: #d6fffd54;
   border-radius: var(--m-radius);
   padding: 1rem;
+  min-width: 15rem;
+  justify-content: space-between;
 }
 /* add focus outline for external box. May need to set state for focus */
-.input--box {
+.input--border {
   border: var(--dark-grey) 1px solid;
   border-radius: var(--s-radius);
   display: flex;
@@ -114,37 +132,54 @@ button.header {
   align-items: center;
   flex-direction: row;
   padding: 0.25rem;
-  width: 15rem;
+  width: 17rem;
   margin: 0;
   background-color: var(--white);
+}
+
+.auth--input--box {
+  height: 6rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
 }
 .auth--input {
   margin: 0.75rem;
   color: var(--light-font);
 }
 
-.input--box:focus {
+.input--border:focus {
   outline: var(--blue);
 }
 
 .icon--input {
   border: none;
-  width: 15rem;
+  width: 16rem;
   font-size: var(--xs-text-alt);
   font-size: var(--xs-text);
+}
+
+.input--border.false {
+  border: red 2px solid;
+}
+
+.error {
+  color: red;
+  margin: none;
+  padding: none;
 }
 
 .icon--input:focus {
   outline: none;
 }
 
-.home--page{
+.home--page {
   display: flex;
   align-items: center;
   flex-direction: column;
   height: 100%;
   min-height: 100vh;
-  background-color: var(--dark-grey);
   width: 100%;
 }
 
@@ -152,10 +187,48 @@ button.header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: var(--light-blue);
+  background-color: var(--transparent);
   border-radius: var(--l-radius);
   margin-top: 10%;
   min-height: 35rem;
   width: 25rem;
-  color: var(--dark-grey)
+  color: var(--white);
+  padding: 1.5rem;
+}
+
+.todo--nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.todo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  align-self: flex-start;
+  background-color: #2600ff47;
+  width: 100%;
+  padding-left: 0.25rem;
+  margin: 3px;
+}
+
+.todo:hover {
+  background-color: rgba(0, 0, 255, 0.703);
+}
+
+.todo--title {
+  font-size: var(--xs-text);
+  font-weight: 500;
+}
+
+.todo--button--box {
+  display: flex;
+}
+
+.todo--form--container {
+  display: flex;
+  width: 100%;
+  padding-right: 5px;
+  justify-content: space-between;
 }
