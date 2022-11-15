@@ -9,7 +9,7 @@ export default function Search(props) {
 
   return (
     <div className="search--box">
-      <IconInput name={"search"} value={search} onChange={onChange} />
+      <IconInput name={"search"} value={search} onChange={onChange} valid={true} />
     </div>
   );
 }

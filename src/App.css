@@ -106,7 +106,7 @@ button.header {
 
 .title {
   color: var(--light-font);
-  font-size: var(--xl-text);
+  font-size: var(--xxl-text);
   font-weight: 600;
 }
 
@@ -129,7 +129,7 @@ button.header {
   min-width: 15rem;
   justify-content: space-between;
 }
-/* add focus outline for external box. May need to set state for focus */
+
 .input--border {
   border: var(--dark-grey) 1px solid;
   border-radius: var(--s-radius);
@@ -201,7 +201,7 @@ p.error {
   justify-content: flex-start;
   background-color: var(--transparent);
   border-radius: var(--l-radius);
-  margin-top: 10%;
+  margin-top: 3%;
   min-height: 35rem;
   width: --var(--default-div-width);
   width: --var(--dynamic-div-width);
