@@ -17,13 +17,230 @@
   --xs-text-alt: 0.9rem;
   --xxs-text: clamp(0.75rem, 0.7rem + 0.25000000000000006vw, 0.9rem);
   --xxs-text-alt: 0.75rem;
-  --content-font: "Noto Sans", sans-serif;
+  --content-font: "Urbanist", sans-serif;
   --s-radius: 5px;
   --m-radius: 10px;
   --l-radius: 15px;
-  --transition: 0.4s ease;
+  --blue: #7afef6;
+  --light-blue: #d2f6f9;
+  --white: #f7fcf8;
+  --light-font: #e2faf8;
+  --transparent: #0e8a8a42;
+  --default-div-width: 20rem;
+  --dynamic-div-width: clamp(20rem, 15rem + 25vw, 30rem);
+  --default-input-width: 15rem;
+  --dynamic-input-width: clamp(15rem, 14.5rem + 2.5vw, 16rem);
+
+}
+
+.svg--icon {
+  height: 1rem;
+}
+
+.svg--button {
+  height: 1.5rem;
+  width: 1.5rem;
+  stroke: var(--light-blue);
+  margin: 5px;
+}
+
+button {
+  border: none;
+  border-radius: var(--s-radius);
+  margin: 0.25rem;
+  padding: 0.5rem;
+  font-weight: 600;
+  font-size: var(--xs-text);
+}
+
+button.blue {
+  background-color: var(--blue);
+}
+
+button.login {
+  margin: 1.25rem;
+  background-color: #7afef6;
+}
+
+button.header {
+  width: fit-content;
+  margin: 0.5rem;
+  background-color: var(--blue);
+}
+
+/* .blue {
+  background-color: var(--blue);
+} */
+
+.todo--input {
+  border: none;
+  width: 15rem;
+  border-radius: var(--s-radius);
+  font-size: var(--xs-text-alt);
+  font-size: var(--xs-text);
+  margin: 0.25rem;
+  width: var(--default-input-width);
+  width: var(--dynamic-input-width);
 }
 
 .App {
-  font-family: --var(--content-font);
+  font-family: var(--content-font);
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: url("https://images.unsplash.com/photo-1614852206732-6728910dc175");
+  background-color: #010f58;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.title {
+  color: var(--light-font);
+  font-size: var(--xl-text);
+  font-weight: 600;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: -20%;
+  min-height: 100%;
+  width: 100%;
+}
+
+.auth--form {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--transparent);
+  border-radius: var(--m-radius);
+  padding: 1rem;
+  min-width: 15rem;
+  justify-content: space-between;
+}
+/* add focus outline for external box. May need to set state for focus */
+.input--border {
+  border: var(--dark-grey) 1px solid;
+  border-radius: var(--s-radius);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  padding: 0.25rem;
+  margin-right: .25rem;
+  width: var(--default-input-width);
+  width: var(--dynamic-input-width);
+  margin: 0;
+  background-color: var(--white);
+}
+
+.input--border.focus-border {
+  border: rgb(107, 52, 246) solid 3px;
+}
+.auth--input--box {
+  height: 6rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+.auth--input {
+  margin: 0.75rem;
+  color: var(--light-font);
+}
+
+.icon--input {
+  border: none;
+  width: var(--default-input-width);
+  width: var(--dynamic-input-width);
+  font-size: var(--xs-text-alt);
+  font-size: var(--xs-text);
+  padding: .25rem;
+}
+
+.input--border.invalid {
+  outline: red 3px solid;
+}
+
+p.error {
+  color: red;
+  margin-block-start: 1px;
+  padding: 0;
+  max-width: 15rem;
+  overflow-wrap: normal;
+}
+
+.icon--input:focus {
+  outline: none;
+}
+
+.home--page {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.todo--list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: var(--transparent);
+  border-radius: var(--l-radius);
+  margin-top: 10%;
+  min-height: 35rem;
+  width: --var(--default-div-width);
+  width: --var(--dynamic-div-width);
+  color: var(--white);
+  padding: 1.5rem;
+}
+
+.todo--nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.todo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  align-self: center;
+  background-color: #2600ff47;
+  width: 100%;
+  padding: 0.5rem;
+  margin: 3px;
+}
+
+.todo:hover {
+  background-color: rgba(0, 0, 255, 0.703);
+}
+
+.todo--title {
+  font-size: var(--xs-text);
+  font-weight: 500;
+}
+
+.todo--button--box {
+  display: flex;
+}
+
+.todo--form--container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
 }

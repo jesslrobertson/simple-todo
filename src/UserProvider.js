@@ -1,74 +1,134 @@
-import React, { useState } from 'react'
-import axios from 'axios'
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+var qs = require("qs");
 
-export const UserContext = React.createContext()
+export const UserContext = React.createContext();
 
-// const userAxios = axios.create()
+export default function UserProvider(props) {
+  const navigate = useNavigate();
+  const initState = {
+    username: JSON.parse(localStorage.getItem("username")) || "",
+    userImage: localStorage.getItem("userImage") || "",
+    token: localStorage.getItem("token") || "",
+    storedTodos: JSON.parse(localStorage.getItem("todos")) || [],
+    errMsg: "",
+  };
 
-// userAxios.interceptors.request.use(config => {
-//   const token = localStorage.getItem("token")
-//   config.headers.Authorization = `Bearer ${token}`
-//   return config
-// })
-
-export default function UserProvider(props){
-  const initState = { 
-    user: JSON.parse(localStorage.getItem("user")) || {}, 
-    token: localStorage.getItem("token") || "", 
-    errMsg: ""
+  const [userState, setUserState] = useState(initState);
+  const [loading, setLoading] = useState(false);
+  const todos = [];
+  if (userState.storedTodos?.length < 1) {
+    todos.push("Click 'New' to write a new item!");
+    localStorage.setItem("todos", JSON.stringify(todos));
   }
-  
-  const [userState, setUserState] = useState(initState)
-  
-  function login(credentials){
-    axios.post("http://dev.rapptrlabs.com/Tests/scripts/user-login.php", credentials)
-      .then(res => {
-        const { user, token } = res.data
-        localStorage.setItem("token", token)
-        localStorage.setItem("user", JSON.stringify(user))
-        setUserState(prevUserState => ({
+
+  //using a proxy server to get around the CORS error, enable access with one click at https://cors-anywhere.herokuapp.com/corsdemo
+  function login(credentials) {
+    const options = {
+      method: "POST",
+      headers: { "content-type": "application/x-www-form-urlencoded" },
+      data: qs.stringify(credentials),
+      url: "https://cors-anywhere.herokuapp.com/http://dev.rapptrlabs.com/Tests/scripts/user-login.php",
+    };
+    console.log("login called");
+    console.log(credentials);
+    setLoading(true);
+    axios(options)
+      .then((res) => {
+        console.log(res);
+        const { user_username, user_token, user_profile_image } = res.data;
+        console.log(user_profile_image);
+        localStorage.setItem("token", user_token);
+        localStorage.setItem("username", JSON.stringify(user_username));
+        localStorage.setItem("userImage", user_profile_image);
+        setUserState((prevUserState) => ({
           ...prevUserState,
-          user,
-          token
-        }))
+          username: user_username,
+          userImage: user_profile_image,
+          token: user_token,
+        }));
+        navigate("/todolist");
       })
-      .catch(err => handleAuthError(err.response.data.errMsg))
+      .catch((err) => handleAuthError(err.response.status))
+      .finally(() => setLoading(false));
   }
 
-  function logout(){
-    localStorage.removeItem("token")
-    localStorage.removeItem("user")
+  function addTodo(newTodo) {
+    const updatedList = [...userState.storedTodos, newTodo];
+    localStorage.setItem("todos", JSON.stringify(updatedList));
+    setUserState((prevUserState) => ({
+      ...prevUserState,
+      storedTodos: JSON.parse(localStorage.getItem("todos")),
+    }));
+  }
+
+  function editTodo(editingIndex, updatedTodo) {
+    const currentList = [...userState.storedTodos];
+    currentList[editingIndex] = updatedTodo;
+    localStorage.setItem("todos", JSON.stringify(currentList));
+    setUserState((prevUserState) => ({
+      ...prevUserState,
+      storedTodos: JSON.parse(localStorage.getItem("todos")),
+    }));
+  }
+
+  function removeTodo(indexToRemove) {
+    const currentList = [...userState.storedTodos];
+    const updatedList = currentList.filter(
+      (item, index) => item[index] !== item[indexToRemove]
+    );
+    localStorage.setItem("todos", JSON.stringify(updatedList));
+    setUserState((prevUserState) => ({
+      ...prevUserState,
+      storedTodos: JSON.parse(localStorage.getItem("todos")),
+    }));
+  }
+
+  function logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
     setUserState({
-      user: {},
+      username: "",
+      userImage: "",
       token: "",
-      todos: []
-    })
+    });
   }
 
-  function handleAuthError(errMsg){
-    setUserState(prevState => ({
+  function handleAuthError(errCode) {
+    console.log(errCode);
+    let authErrMsg =
+      errCode === 401
+        ? "Email or password is incorrect"
+        : "Something went wrong";
+    setUserState((prevState) => ({
       ...prevState,
-      errMsg
-    }))
+      errMsg: authErrMsg,
+    }));
   }
 
-  function resetAuthError(){
-    setUserState(prevState => ({
+  function resetAuthError() {
+    setUserState((prevState) => ({
       ...prevState,
-      errMsg: ""
-    }))
+      errMsg: "",
+    }));
   }
-
 
   return (
     <UserContext.Provider
       value={{
-        ...userState,
+        addTodo,
+        editTodo,
+        removeTodo,
         login,
         logout,
-        resetAuthError
-      }}>
-      { props.children }
+        resetAuthError,
+        loading,
+        setUserState,
+        ...userState,
+      }}
+    >
+      {props.children}
     </UserContext.Provider>
-  )
+  );
 }

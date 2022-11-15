@@ -1,21 +1,61 @@
-import React, {useState} from 'react'
-import Header from '../components/Header'
-import Search from '../components/Search'
-import TodoItem from '../components/TodoItem'
+import React, { useState, useEffect, useContext } from "react";
+import Header from "../components/Header";
+import Search from "../components/Search";
+import TodoItem from "../components/TodoItem";
+import Button from "../common/Button";
+import TodoItemForm from "../components/TodoItemForm";
+import { UserContext } from "../UserProvider";
 
+export default function TodoList() {
+  const { storedTodos, setUserState } = useContext(UserContext);
+  const [newTodo, setNewTodo] = useState(false);
+  const [search, setSearch] = useState("");
+  const [displayedTodos, setDisplayedTodos] = useState(storedTodos);
 
-export default function TodoList(){
-  const [todos, setTodos] = useState()
+  //handle filtering of list through search bar
+  useEffect(() => {
+    if (!search) {
+      setDisplayedTodos(storedTodos);
+    } else {
+      setDisplayedTodos(
+        storedTodos.filter((item) =>
+          item.toLowerCase().includes(search.toLowerCase())
+        )
+      );
+    }
+  }, [search, storedTodos]);
 
-  //TODO: write function to get items from local storage
+  useEffect(() => {
+    setUserState((prevState) => ({
+      ...prevState,
+      storedTodos: JSON.parse(localStorage.getItem("todos")),
+    }));
+  }, [setUserState]);
+
+  function toggleNewTodo() {
+    setNewTodo((prev) => !prev);
+  }
 
   return (
-    <div className='home--page'>
-      <h3>This is the home page</h3>
-      <Search />
-      <div className='todo--list'>
-        {/*TODO- map over todos, rendering a TodoItem for each.  */}
+    <div className="home--page">
+      <Header />
+      <div className="todo--list">
+        <h3 className="title">My Todo List</h3>
+        <div className="todo--nav">
+          <Search search={search} setSearch={setSearch} />
+          <Button buttonText="New" color="blue" onClick={toggleNewTodo} />
+        </div>
+        {newTodo && (
+          <TodoItemForm
+            toggleNewTodo={toggleNewTodo}
+            storedTodos={storedTodos}
+            setDisplayedTodos={setDisplayedTodos}
+          />
+        )}
+        {displayedTodos?.map((todo, index) => (
+          <TodoItem newTodo={newTodo} todo={todo} index={index} key={index} />
+        ))}
       </div>
     </div>
-  )
+  );
 }
