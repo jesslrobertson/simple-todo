@@ -8,9 +8,9 @@ export default function IconButton(props) {
   return (
     <div className="icon--button">
       {type === "edit" ? (
-        <Edit className={className} onClick={() => setEditingItem(true)} />
+        <Edit className={className} aria-label={type} onClick={() => setEditingItem(true)} />
       ) : (
-        <Trash className={className} onClick={() => removeTodo(index)} />
+        <Trash className={className} aria-label={type} onClick={() => removeTodo(index)} />
       )}
     </div>
   );

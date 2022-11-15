@@ -25,7 +25,12 @@
   --light-blue: #d2f6f9;
   --white: #f7fcf8;
   --light-font: #e2faf8;
-  --transparent: #02030330;
+  --transparent: #0e8a8a42;
+  --default-div-width: 20rem;
+  --dynamic-div-width: clamp(20rem, 15rem + 25vw, 30rem);
+  --default-input-width: 15rem;
+  --dynamic-input-width: clamp(15rem, 14.5rem + 2.5vw, 16rem);
+
 }
 
 .svg--icon {
@@ -42,7 +47,7 @@
 button {
   border: none;
   border-radius: var(--s-radius);
-  margin: 0.25rem 0;
+  margin: 0.25rem;
   padding: 0.5rem;
   font-weight: 600;
   font-size: var(--xs-text);
@@ -63,18 +68,19 @@ button.header {
   background-color: var(--blue);
 }
 
-.blue {
+/* .blue {
   background-color: var(--blue);
-}
+} */
 
 .todo--input {
   border: none;
   width: 15rem;
   border-radius: var(--s-radius);
-  padding: 0.25rem;
   font-size: var(--xs-text-alt);
   font-size: var(--xs-text);
   margin: 0.25rem;
+  width: var(--default-input-width);
+  width: var(--dynamic-input-width);
 }
 
 .App {
@@ -86,8 +92,8 @@ button.header {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* background-color: var(--light-blue); */
   background-image: url("https://images.unsplash.com/photo-1614852206732-6728910dc175");
+  background-color: #010f58;
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -117,7 +123,7 @@ button.header {
 .auth--form {
   display: flex;
   flex-direction: column;
-  background-color: #d6fffd54;
+  background-color: var(--transparent);
   border-radius: var(--m-radius);
   padding: 1rem;
   min-width: 15rem;
@@ -132,11 +138,16 @@ button.header {
   align-items: center;
   flex-direction: row;
   padding: 0.25rem;
-  width: 17rem;
+  margin-right: .25rem;
+  width: var(--default-input-width);
+  width: var(--dynamic-input-width);
   margin: 0;
   background-color: var(--white);
 }
 
+.input--border.focus-border {
+  border: rgb(107, 52, 246) solid 3px;
+}
 .auth--input--box {
   height: 6rem;
   display: flex;
@@ -149,25 +160,25 @@ button.header {
   color: var(--light-font);
 }
 
-.input--border:focus {
-  outline: var(--blue);
-}
-
 .icon--input {
   border: none;
-  width: 16rem;
+  width: var(--default-input-width);
+  width: var(--dynamic-input-width);
   font-size: var(--xs-text-alt);
   font-size: var(--xs-text);
+  padding: .25rem;
 }
 
 .input--border.false {
-  border: red 2px solid;
+  outline: red 3px solid;
 }
 
-.error {
+p.error {
   color: red;
-  margin: none;
-  padding: none;
+  margin-block-start: 1px;
+  padding: 0;
+  max-width: 15rem;
+  overflow-wrap: normal;
 }
 
 .icon--input:focus {
@@ -187,11 +198,13 @@ button.header {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
   background-color: var(--transparent);
   border-radius: var(--l-radius);
   margin-top: 10%;
   min-height: 35rem;
-  width: 25rem;
+  width: --var(--default-div-width);
+  width: --var(--dynamic-div-width);
   color: var(--white);
   padding: 1.5rem;
 }
@@ -206,10 +219,10 @@ button.header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  align-self: flex-start;
+  align-self: center;
   background-color: #2600ff47;
   width: 100%;
-  padding-left: 0.25rem;
+  padding: 0.5rem;
   margin: 3px;
 }
 
@@ -229,6 +242,5 @@ button.header {
 .todo--form--container {
   display: flex;
   width: 100%;
-  padding-right: 5px;
   justify-content: space-between;
 }

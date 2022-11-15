@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import IconInput from "../common/IconInput";
 import Button from "../common/Button";
 
@@ -14,6 +14,7 @@ export default function AuthForm(props) {
     validateEmail,
     inputs: { email, password, emailMsg, passwordMsg },
   } = props;
+
 
   return (
     <form className="auth--form" onSubmit={handleSubmit}>

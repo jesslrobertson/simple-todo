@@ -11,6 +11,7 @@ export default function Header() {
         color={"green"}
         onClick={logout}
         type="header"
+        aria-label='logout'
       />
     </div>
   );

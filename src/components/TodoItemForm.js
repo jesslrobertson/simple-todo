@@ -43,6 +43,7 @@ export default function TodoItemForm(props) {
         color="blue"
         buttonText="save"
         onClick={handleSubmit}
+        aria-label="save"
       />
     </form>
   );
