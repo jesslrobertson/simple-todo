@@ -30,7 +30,6 @@
   --dynamic-div-width: clamp(20rem, 15rem + 25vw, 30rem);
   --default-input-width: 15rem;
   --dynamic-input-width: clamp(15rem, 14.5rem + 2.5vw, 16rem);
-
 }
 
 .svg--icon {
@@ -138,7 +137,7 @@ button.header {
   align-items: center;
   flex-direction: row;
   padding: 0.25rem;
-  margin-right: .25rem;
+  margin-right: 0.25rem;
   width: var(--default-input-width);
   width: var(--dynamic-input-width);
   margin: 0;
@@ -166,7 +165,7 @@ button.header {
   width: var(--dynamic-input-width);
   font-size: var(--xs-text-alt);
   font-size: var(--xs-text);
-  padding: .25rem;
+  padding: 0.25rem;
 }
 
 .input--border.invalid {
@@ -227,9 +226,8 @@ p.error {
   justify-content: space-evenly;
   width: 100%;
   margin-bottom: 1.1rem;
-  padding-left: .25rem
+  padding-left: 0.25rem;
 }
-
 
 .todo {
   display: flex;
