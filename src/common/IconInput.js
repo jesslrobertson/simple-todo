@@ -11,7 +11,7 @@ export default function IconInput(props) {
   return (
     <div>
       <div
-        className={`input--border ${type} ${valid} ${
+        className={`input--border ${type} ${valid ? "" : "invalid"} ${
           focus ? "focus-border" : ""
         }`}
       >

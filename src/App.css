@@ -169,7 +169,7 @@ button.header {
   padding: .25rem;
 }
 
-.input--border.false {
+.input--border.invalid {
   outline: red 3px solid;
 }
 
